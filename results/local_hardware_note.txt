@@ -1,0 +1,55 @@
+本地硬件环境记录
+
+日期：2026/7/6
+当前项目：LightGCN-PyTorch
+当前分支：exposure-analysis
+
+一、本地硬件检查结果
+
+已执行命令：
+
+nvidia-smi
+
+结果：
+
+系统提示 nvidia-smi 不是内部或外部命令，也不是可运行的程序或批处理文件。
+
+继续执行命令：
+
+wmic path win32_VideoController get name
+
+结果：
+
+Intel(R) Iris(R) Xe Graphics
+
+二、结论
+
+当前电脑未检测到 NVIDIA 独立显卡。
+当前 PyTorch 环境中 CUDA 不可用。
+本地训练 LightGCN 时只能使用 CPU。
+
+三、对项目实验的影响
+
+本地电脑适合完成以下任务：
+
+1. GitHub 项目管理
+2. 代码开发
+3. 数据读取与统计
+4. Gowalla 物品流行度分析
+5. 推荐曝光分析脚本编写
+6. 小轮数训练流程验证
+7. 小样本 Top-K 推荐导出
+
+本地电脑不适合长时间进行完整正式训练，例如 1000 轮 LightGCN 训练。
+
+四、后续计划
+
+正式实验阶段建议使用具备 NVIDIA GPU 的环境运行，例如：
+
+1. 学校服务器
+2. 实验室电脑
+3. Kaggle
+4. Colab
+5. AutoDL 等云 GPU 平台
+
+当前本地工作重点应放在代码流程打通、指标脚本完善和实验记录整理。
