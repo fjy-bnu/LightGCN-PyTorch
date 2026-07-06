@@ -1,0 +1,38 @@
+LightGCN Gowalla 5轮流程测试记录
+
+日期：2026/7/6
+当前分支：baseline-reproduce
+环境：conda lightgcn
+Python：3.8.20
+PyTorch：2.4.1
+CUDA：False，当前使用 CPU
+
+运行位置：
+LightGCN-PyTorch/code
+
+运行命令：
+python main.py --dataset=gowalla --epochs=5 --tensorboard=0
+
+说明：
+本次不是正式实验，只是验证环境、数据、代码能否跑通。
+
+运行情况：
+程序成功读取 Gowalla 数据集。
+程序成功加载邻接矩阵。
+程序成功进入 LightGCN 训练流程。
+已完成 5 轮训练。
+
+训练前测试结果：
+precision@20 = 0.00018755
+recall@20 = 0.00053749
+ndcg@20 = 0.00040836
+
+5轮训练日志：
+EPOCH[1/5] loss0.545
+EPOCH[2/5] loss0.240
+EPOCH[3/5] loss0.163
+EPOCH[4/5] loss0.131
+EPOCH[5/5] loss0.112
+
+结论：
+LightGCN 基础代码已能在本地环境中运行，项目环境初步搭建成功。
