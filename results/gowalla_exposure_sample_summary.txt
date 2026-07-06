@@ -1,0 +1,16 @@
+Gowalla LightGCN Top-20 Exposure Sample Analysis
+==============================================
+
+Note: This is based on the exported sample of 200 test users.
+It is used only to verify the exposure-analysis pipeline.
+
+Number of items: 40981
+Head item threshold: top 20%, rank <= 8196
+
+Total exposure count: 4000
+Head item exposure count: 3981
+Tail item exposure count: 19
+
+Head item exposure ratio: 0.9952
+Tail item exposure ratio: 0.0047
+Coverage on sample: 0.010907
