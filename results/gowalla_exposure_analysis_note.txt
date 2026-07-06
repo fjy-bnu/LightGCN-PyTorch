@@ -1,0 +1,61 @@
+Gowalla LightGCN 推荐曝光样本分析记录
+
+日期：2026/7/6
+当前分支：exposure-analysis
+
+一、本阶段目标
+
+本阶段目标是验证是否能够从 LightGCN 模型中导出用户 Top-20 推荐列表，并基于推荐结果分析热门物品和长尾物品的曝光比例，为后续正式评估 LightGCN 的流行度偏差做准备。
+
+二、已完成内容
+
+1. 新建 exposure-analysis 分支。
+2. 阅读 Procedure.py 中 Test 函数的推荐生成逻辑。
+3. 确认 Top-K 推荐结果来自 torch.topk(rating, k=max_K)。
+4. 新建 export_gowalla_topk.py，用于导出测试用户 Top-20 推荐列表。
+5. 先导出前 200 个测试用户的推荐结果，验证流程。
+6. 新建 analyze_gowalla_exposure_sample.py，用于统计推荐结果中的热门/长尾曝光比例。
+7. 成功生成推荐曝光样本分析结果。
+
+三、生成文件
+
+code/export_gowalla_topk.py
+code/analyze_gowalla_exposure_sample.py
+results/gowalla_top20_recommendations_sample.csv
+results/gowalla_exposure_sample_summary.txt
+
+四、样本分析结果
+
+样本用户数：200
+每个用户推荐数量：20
+总曝光数：4000
+
+物品总数：40981
+热门物品定义：流行度排名前 20%，rank <= 8196
+
+热门物品曝光数：3981
+长尾物品曝光数：19
+
+热门物品曝光比例：0.9952
+长尾物品曝光比例：0.0047
+
+样本 Coverage：0.010907
+
+五、初步结论
+
+在当前样本导出的 Top-20 推荐结果中，LightGCN 推荐结果明显集中在热门物品上。200 个测试用户共 4000 次推荐曝光中，热门物品曝光占比达到 99.52%，长尾物品曝光占比仅为 0.47%。
+
+该结果说明导出的推荐列表可以用于后续流行度偏差分析，也初步显示 LightGCN 推荐结果可能存在明显的热门物品曝光偏向。
+
+六、注意事项
+
+本结果目前仍是流程验证结果，不是正式实验结论。原因如下：
+
+1. 当前只导出了 200 个测试用户样本。
+2. 当前模型训练轮数不足，主要用于验证代码流程。
+3. 后续需要在完整测试用户上重新导出推荐结果。
+4. 后续需要使用充分训练后的 LightGCN checkpoint 进行正式分析。
+
+七、下一步计划
+
+下一步将把样本导出流程扩展为完整测试用户导出流程，并进一步计算正式的曝光指标，包括 Head Exposure、Tail Exposure、Coverage，以及后续可能加入的 Gini 指标。
