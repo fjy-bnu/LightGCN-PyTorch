@@ -1,0 +1,90 @@
+LightGCN 正式实验运行方案记录
+
+当前分支：exposure-analysis
+
+一、当前本地环境状态
+
+本地 conda 环境：lightgcn
+Python：3.8.20
+PyTorch：2.4.1
+CUDA：False
+
+本地显卡检查结果：
+Intel(R) Iris(R) Xe Graphics
+
+结论：
+当前电脑没有 NVIDIA GPU，本地只能使用 CPU 运行 LightGCN。
+
+二、为什么不建议本地直接跑正式实验
+
+LightGCN 在 Gowalla 数据集上默认训练轮数较多，例如 1000 轮。
+之前本地 CPU 运行时，训练到少数轮数就已经耗时较长。
+
+因此，本地电脑适合做：
+
+1. 代码开发
+2. 小样本流程验证
+3. 数据统计
+4. 指标脚本编写
+5. 结果文件整理
+
+但不适合直接进行完整正式训练。
+
+三、已经完成的本地流程
+
+1. LightGCN 环境搭建完成。
+2. Gowalla 数据集读取成功。
+3. LightGCN 5 轮流程测试成功。
+4. Gowalla 物品流行度分析完成。
+5. Gowalla 长尾分布图生成完成。
+6. Top-20 推荐样本导出成功。
+7. 推荐曝光样本分析成功。
+8. 完整测试用户 Top-K 导出脚本已准备。
+9. 完整曝光分析脚本已准备。
+
+四、后续正式实验建议
+
+正式实验建议在 GPU 环境中运行，例如：
+
+1. 学校服务器
+2. 实验室电脑
+3. Kaggle
+4. Colab
+5. AutoDL 云 GPU 平台
+
+五、正式实验推荐流程
+
+第一步：
+在 GPU 环境中 clone 当前 GitHub 仓库，并切换到 exposure-analysis 分支。
+
+第二步：
+重新配置 conda 环境或 Python 环境。
+
+第三步：
+运行 LightGCN 正式训练，例如先尝试 100 轮或 300 轮，不建议一开始直接 1000 轮。
+
+第四步：
+训练完成后，使用保存好的 checkpoint 导出完整测试用户 Top-20 推荐结果：
+
+python export_gowalla_topk_full.py --dataset=gowalla --tensorboard=0
+
+第五步：
+运行完整曝光分析脚本：
+
+python analyze_gowalla_exposure_full.py
+
+第六步：
+保存正式结果，包括：
+
+results/gowalla_top20_recommendations_full.csv
+results/gowalla_exposure_full_summary.txt
+
+六、当前下一步
+
+在没有 GPU 之前，本地下一步可以先继续完善指标脚本，例如：
+
+1. 计算更完整的 Coverage
+2. 计算 Gini 指数
+3. 统计热门物品平均推荐排名
+4. 统计长尾物品曝光不足问题
+5. 整理项目阶段报告内容
