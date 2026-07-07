@@ -1,0 +1,64 @@
+Gowalla LightGCN 曝光指标分析记录
+
+当前分支：exposure-analysis
+
+一、本阶段目标
+
+本阶段目标是在已有 Top-20 推荐样本结果基础上，进一步扩展推荐曝光分析指标，不只统计热门/长尾曝光比例，还增加 Coverage、Exposure Gini、平均流行度排名、平均训练交互次数、不同推荐位置上的热门曝光比例等指标。
+
+二、已完成内容
+
+1. 新建 analyze_gowalla_exposure_metrics_sample.py。
+2. 基于 gowalla_top20_recommendations_sample.csv 计算样本推荐曝光指标。
+3. 生成 gowalla_exposure_metrics_sample.txt。
+4. 新建 analyze_gowalla_exposure_metrics_full.py。
+5. 完整测试用户版本指标脚本已完成语法检查。
+6. 两个指标脚本均已提交并上传到 exposure-analysis 分支。
+
+三、样本指标结果
+
+样本用户数：200
+TopK：20
+总曝光数：4000
+
+热门曝光数：3981
+长尾曝光数：19
+
+热门曝光比例：0.9952
+长尾曝光比例：0.0047
+
+Unique recommended items：447
+Coverage：0.010907
+Exposure Gini：0.996798
+
+推荐物品平均流行度排名：383.42
+推荐物品平均训练交互次数：429.83
+
+四、结果解释
+
+样本结果显示，LightGCN 的 Top-20 推荐结果高度集中在热门物品上。虽然 Gowalla 训练集中前 20% 热门物品贡献了约 53.02% 的训练交互，但在当前样本推荐结果中，热门物品曝光比例达到 99.52%。
+
+这说明推荐模型可能进一步放大了训练数据中的热门物品优势。
+
+Exposure Gini 接近 1，说明推荐曝光高度不均匀，少数物品获得了大量推荐机会。
+
+五、注意事项
+
+当前结果仍然是流程验证结果，不是最终正式实验结论。
+
+原因包括：
+
+1. 当前只使用 200 个测试用户样本。
+2. 当前模型训练轮数不足。
+3. 当前主要目的是验证指标脚本是否能正常运行。
+4. 正式结果需要在完整测试用户和充分训练模型上重新计算。
+
+六、后续计划
+
+后续正式实验需要：
+
+1. 在 GPU 环境中训练更充分的 LightGCN 模型。
+2. 使用 export_gowalla_topk_full.py 导出完整测试用户 Top-20 推荐结果。
+3. 使用 analyze_gowalla_exposure_full.py 计算基础曝光指标。
+4. 使用 analyze_gowalla_exposure_metrics_full.py 计算完整曝光指标。
+5. 对比训练集热门分布与推荐结果热门曝光分布，分析 LightGCN 是否放大流行度偏差。
