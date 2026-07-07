@@ -1,0 +1,56 @@
+Gowalla LightGCN Exposure Metrics Sample
+======================================
+
+Note: This result is based on 200 sampled test users.
+It is used to verify the metric calculation pipeline.
+
+Number of sampled users: 200
+TopK: 20
+Number of items: 40981
+Head item threshold: top 20%, rank <= 8196
+
+Total exposure count: 4000
+Head exposure count: 3981
+Tail exposure count: 19
+Head exposure ratio: 0.9952
+Tail exposure ratio: 0.0047
+
+Unique recommended items: 447
+Coverage: 0.010907
+Exposure Gini: 0.996798
+Average popularity rank of recommended items: 383.42
+Average training interaction count of recommended items: 429.83
+
+Position-wise head exposure ratio:
+Top-1: 1.0000
+Top-2: 0.9950
+Top-3: 1.0000
+Top-4: 1.0000
+Top-5: 0.9950
+Top-6: 0.9950
+Top-7: 0.9950
+Top-8: 0.9950
+Top-9: 0.9950
+Top-10: 1.0000
+Top-11: 0.9950
+Top-12: 0.9950
+Top-13: 0.9900
+Top-14: 0.9950
+Top-15: 0.9950
+Top-16: 0.9900
+Top-17: 0.9950
+Top-18: 0.9950
+Top-19: 0.9900
+Top-20: 0.9950
+
+Most exposed recommended items:
+item 1811: exposure=97, popularity_rank=9, train_interactions=856
+item 718: exposure=94, popularity_rank=7, train_interactions=978
+item 837: exposure=91, popularity_rank=11, train_interactions=829
+item 2337: exposure=85, popularity_rank=6, train_interactions=1031
+item 2525: exposure=80, popularity_rank=1, train_interactions=1415
+item 642: exposure=76, popularity_rank=16, train_interactions=637
+item 160: exposure=75, popularity_rank=5, train_interactions=1059
+item 978: exposure=72, popularity_rank=8, train_interactions=894
+item 722: exposure=70, popularity_rank=18, train_interactions=583
+item 141: exposure=70, popularity_rank=15, train_interactions=639
