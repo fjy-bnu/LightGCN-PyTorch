@@ -97,6 +97,9 @@ class LightGCN(BasicModel):
         self.keep_prob = self.config['keep_prob']
         self.pop_aware_dropout = self.config.get('pop_aware_dropout', 0)
         self.pop_alpha = self.config.get('pop_alpha', 0.5)
+        train_item_pop = np.bincount(self.dataset.trainItem, minlength=self.num_items).astype(np.float32)
+        train_item_pop = train_item_pop / (train_item_pop.max() + 1e-8)
+        self.item_popularity = torch.from_numpy(train_item_pop).float().to(world.device)
         self.A_split = self.config['A_split']
         self.embedding_user = torch.nn.Embedding(
             num_embeddings=self.num_users, embedding_dim=self.latent_dim)
