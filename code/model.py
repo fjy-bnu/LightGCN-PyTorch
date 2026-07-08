@@ -126,10 +126,36 @@ class LightGCN(BasicModel):
         size = x.size()
         index = x.indices().t()
         values = x.values()
-        random_index = torch.rand(len(values)) + keep_prob
-        random_index = random_index.int().bool()
-        index = index[random_index]
-        values = values[random_index]/keep_prob
+
+        if self.pop_aware_dropout:
+            row = index[:, 0]
+            col = index[:, 1]
+
+            item_nodes = torch.where(
+                row >= self.num_users,
+                row - self.num_users,
+                col - self.num_users
+            )
+
+            item_nodes = torch.clamp(item_nodes, min=0, max=self.num_items - 1)
+            item_pop = self.item_popularity[item_nodes]
+
+            base_drop_prob = 1.0 - keep_prob
+            drop_prob = base_drop_prob * (1.0 + self.pop_alpha * item_pop)
+            drop_prob = torch.clamp(drop_prob, min=0.0, max=0.95)
+            edge_keep_prob = 1.0 - drop_prob
+
+            random_tensor = torch.rand_like(values)
+            random_index = random_tensor < edge_keep_prob
+
+            index = index[random_index]
+            values = values[random_index] / edge_keep_prob[random_index]
+        else:
+            random_index = torch.rand(len(values)) + keep_prob
+            random_index = random_index.int().bool()
+            index = index[random_index]
+            values = values[random_index] / keep_prob
+
         g = torch.sparse.FloatTensor(index.t(), values, size)
         return g
     
