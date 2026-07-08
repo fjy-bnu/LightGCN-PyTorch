@@ -1,0 +1,47 @@
+Random Dropout 兼容性测试记录
+
+当前分支：pop-aware-dropout
+
+一、本阶段目标
+
+本阶段目标是确认在新增 pop-aware dropout 代码之后，原始随机图 dropout 模式仍然可以正常运行。
+
+二、测试命令
+
+python main.py --dataset=gowalla --epochs=1 --dropout=1 --pop_aware_dropout=0 --tensorboard=0
+
+三、测试设置
+
+本次测试开启原始随机 dropout。
+本次测试关闭 pop-aware dropout。
+
+运行设置为：
+
+dropout: 1
+pop_aware_dropout: 0
+
+四、测试结果
+
+程序成功进入 dropping 阶段。
+程序成功完成 1 轮训练。
+
+输出示例：
+
+EPOCH[1/1] loss0.559-|Sample:8.72|
+
+程序正常返回命令行，无报错。
+
+五、结论
+
+新增 pop-aware dropout 代码没有破坏原始随机 dropout 流程。
+
+当前代码已经通过三种模式的基础功能测试：
+
+1. 默认 LightGCN：dropout=0，pop_aware_dropout=0
+2. 原始随机 dropout：dropout=1，pop_aware_dropout=0
+3. 新增 pop-aware dropout：dropout=1，pop_aware_dropout=1
+
+六、注意事项
+
+本测试只是功能和兼容性测试，不是正式实验结果。
+正式实验仍需要在 GPU 环境中进行充分训练和完整评估。
