@@ -1,0 +1,46 @@
+Pop-aware Dropout 兼容性测试记录
+
+当前分支：pop-aware-dropout
+
+一、本阶段目标
+
+本阶段目标是确认新增的 pop-aware dropout 参数和代码不会破坏原始 LightGCN 的默认运行流程。
+
+二、测试命令
+
+python main.py --dataset=gowalla --epochs=1 --tensorboard=0
+
+三、测试设置
+
+本次测试未开启 dropout。
+本次测试未开启 pop-aware dropout。
+
+运行配置中显示：
+
+dropout: 0
+pop_aware_dropout: 0
+pop_alpha: 0.5
+
+四、测试结果
+
+程序成功读取 Gowalla 数据集。
+程序成功加载邻接矩阵。
+程序成功进入 LightGCN 训练流程。
+程序完成 1 轮训练。
+
+输出示例：
+
+EPOCH[1/1] loss0.545-|Sample:8.61|
+
+程序正常返回命令行，无报错。
+
+五、结论
+
+新增的 pop-aware dropout 参数入口和模型代码没有破坏原始 LightGCN 默认运行流程。
+
+当 pop_aware_dropout=0 且 dropout=0 时，模型仍然按照原始 LightGCN 逻辑运行。
+
+六、注意事项
+
+本测试只是兼容性测试，不是正式实验结果。
+正式对照实验仍需要在 GPU 环境中进行充分训练。
