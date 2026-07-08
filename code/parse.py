@@ -24,6 +24,10 @@ def parse_args():
                         help="using the dropout or not")
     parser.add_argument('--keepprob', type=float,default=0.6,
                         help="the batch size for bpr loss training procedure")
+    parser.add_argument('--pop_aware_dropout', type=int, default=0,
+                        help="using popularity-aware graph dropout or not")
+    parser.add_argument('--pop_alpha', type=float, default=0.5,
+                        help="strength of popularity-aware dropout")
     parser.add_argument('--a_fold', type=int,default=100,
                         help="the fold num used to split large adj matrix, like gowalla")
     parser.add_argument('--testbatch', type=int,default=100,

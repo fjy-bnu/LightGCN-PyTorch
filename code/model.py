@@ -95,6 +95,8 @@ class LightGCN(BasicModel):
         self.latent_dim = self.config['latent_dim_rec']
         self.n_layers = self.config['lightGCN_n_layers']
         self.keep_prob = self.config['keep_prob']
+        self.pop_aware_dropout = self.config.get('pop_aware_dropout', 0)
+        self.pop_alpha = self.config.get('pop_alpha', 0.5)
         self.A_split = self.config['A_split']
         self.embedding_user = torch.nn.Embedding(
             num_embeddings=self.num_users, embedding_dim=self.latent_dim)
