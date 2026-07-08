@@ -1,0 +1,67 @@
+Pop-aware Dropout 功能测试记录
+
+当前分支：pop-aware-dropout
+
+一、本阶段目标
+
+本阶段目标是在 LightGCN 原有随机图 dropout 的基础上，加入流行度感知 dropout 参数和最小实现，并验证代码能否正常运行。
+
+二、已完成代码修改
+
+1. 在 parse.py 中新增命令行参数：
+
+--pop_aware_dropout
+--pop_alpha
+
+2. 在 world.py 中将新增参数写入 config：
+
+config['pop_aware_dropout']
+config['pop_alpha']
+
+3. 在 model.py 中读取新增参数：
+
+self.pop_aware_dropout
+self.pop_alpha
+
+4. 在 model.py 中根据训练集 trainItem 统计物品流行度：
+
+self.item_popularity
+
+5. 替换 LightGCN 中的 __dropout_x 函数。
+
+原始 dropout：
+所有边按相同概率随机保留。
+
+当前 pop-aware dropout：
+热门物品相关边具有更高 drop 概率；
+长尾物品相关边相对更容易被保留。
+
+三、功能测试命令
+
+python main.py --dataset=gowalla --epochs=1 --dropout=1 --pop_aware_dropout=1 --pop_alpha=0.5 --tensorboard=0
+
+四、测试结果
+
+程序成功进入 dropping 阶段。
+程序成功完成 1 轮训练。
+输出示例：
+
+EPOCH[1/1] loss0.559-|Sample:9.01|
+
+程序正常返回命令行，无报错。
+
+五、结论
+
+pop-aware graph dropout 的最小实现已能在 Gowalla 数据集上跑通训练流程。
+当前结果仅为功能测试，不是正式实验结果。
+
+六、下一步计划
+
+后续需要做对照实验：
+
+1. 原始 LightGCN，无 dropout
+2. 原始随机 dropout
+3. pop-aware dropout
+
+由于本地没有 NVIDIA GPU，正式实验建议放到 GPU 环境中运行。
+本地可继续做小轮数流程验证和代码整理。
